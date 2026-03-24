@@ -1,6 +1,5 @@
 import pandas as pd
 import numpy as np
-import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder
 from sklearn.ensemble import RandomForestClassifier
@@ -19,11 +18,20 @@ data = {
     'Checking a': np.random.choice(['little', 'moderate', 'rich', 'none'], n_rows),
     'Credit amount': np.random.randint(500, 15000, n_rows),
     'Duration': np.random.randint(6, 60, n_rows),
-    'Purpose': np.random.choice(['car', 'furniture', 'education', 'business'], n_rows),
-    'Risk': np.random.choice(['good', 'bad'], n_rows, p=[0.7, 0.3])
+    'Purpose': np.random.choice(['car', 'furniture', 'education', 'business'], n_rows)
 }
 df = pd.DataFrame(data)
-df.to_csv('complete_bank_data.csv', index=False)
+
+# --- LOGIC FOR RISK (Model training ke liye) ---
+# Agar Credit amount kam hai aur Saving account 'rich' hai toh 'good' (0) risk
+def define_risk(row):
+    if row['Credit amount'] < 4000 or row['Saving acc'] == 'rich':
+        return 'good'
+    else:
+        return 'bad'
+
+df['Risk'] = df.apply(define_risk, axis=1)
+df.to_csv('data/complete_bank_data.csv', index=False)
 
 encoders = {}
 for col in ['Sex', 'Housing', 'Saving acc', 'Checking a', 'Purpose', 'Risk']:
