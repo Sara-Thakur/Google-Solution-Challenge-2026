@@ -1,299 +1,83 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TrustFlow AI | Ethical Banking</title>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <title>TrustFlow AI | Pro Auditor</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;700;800&display=swap" rel="stylesheet">
     <style>
-        :root {
-            /* --glass: rgba(255, 255, 255, 0.42); */
-            background-color: transparent;
-            --glass-border: rgba(255, 255, 255, 0.591);
-            --primary-gradient: linear-gradient(135deg, #7b8fe8 0%, #764ba2 100%);
-            --accent: #00f2fe;
-        }
-
-        body {
-            font-family: 'Outfit', sans-serif;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-            /* Animated Background */
-            background: linear-gradient(-45deg, #0f172a, #1e293b, #334155, #1e1b4b);
-            background-size: 400% 400%;
-            animation: gradientBG 15s ease infinite;
-            color: #fff;
-            overflow-x: hidden;
-        }
-
-        /* Overlay Image for Tech Feel */
-        body::before {
-            content: "";
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRFDTkaflzzb2mYdpabEgkGVv1cz4bl34ZhVg&s') center/cover no-repeat;
-            opacity: 0.1;
-            z-index: -1;
-        }
-
-        @keyframes gradientBG {
-            0% {
-                background-position: 0% 50%;
-            }
-
-            50% {
-                background-position: 100% 50%;
-            }
-
-            100% {
-                background-position: 0% 50%;
-            }
-        }
-
-        .container {
-            background: var(--glass);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border);
-            width: 100%;
-            max-width: 480px;
-            padding: 40px;
-            border-radius: 32px;
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
-            position: relative;
-        }
-
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .header h1 {
-            font-size: 2rem;
-            margin: 0;
-            background: linear-gradient(to right, #fff, var(--accent));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            font-weight: 700;
-        }
-
-        .header p {
-            font-size: 0.9rem;
-            opacity: 0.8;
-            margin-top: 5px;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        label {
-            font-size: 0.8rem;
-            font-weight: 400;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            display: block;
-            margin-bottom: 8px;
-            color: var(--accent);
-        }
-
-        input,
-        select {
-            width: 100%;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--glass-border);
-            border-radius: 12px;
-            padding: 14px;
-            color: #fff;
-            font-family: inherit;
-            box-sizing: border-box;
-            transition: all 0.3s;
-        }
-
-        input:focus,
-        select:focus {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: var(--accent);
-            outline: none;
-            box-shadow: 0 0 15px rgba(0, 242, 254, 0.2);
-        }
-
-        /* Styling Select Options for Dark Mode */
-        option {
-            background: #1e293b;
-            color: #fff;
-        }
-
-        button {
-            width: 100%;
-            padding: 16px;
-            margin-top: 15px;
-            border: none;
-            border-radius: 12px;
-            background: var(--primary-gradient);
-            color: #fff;
-            font-weight: 600;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: 0.3s;
-            box-shadow: 0 10px 20px rgba(118, 75, 162, 0.3);
-        }
-
-        button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 30px rgba(118, 75, 162, 0.4);
-            filter: brightness(1.1);
-        }
-
-        #result {
-            margin-top: 25px;
-            padding: 20px;
-            border-radius: 16px;
-            display: none;
-            border: 1px solid transparent;
-            animation: fadeIn 0.5s ease-out;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: scale(0.95);
-            }
-
-            to {
-                opacity: 1;
-                transform: scale(1);
-            }
-        }
-
-        .status-approved {
-            background: rgba(16, 185, 129, 0.1);
-            border-color: rgba(16, 185, 129, 0.3);
-            color: #10b981;
-        }
-
-        .status-rejected {
-            background: rgba(239, 68, 68, 0.1);
-            border-color: rgba(239, 68, 68, 0.3);
-            color: #ef4444;
-        }
-
-        .insight-box {
-            margin-top: 15px;
-            padding-top: 15px;
-            border-top: 1px solid var(--glass-border);
-            font-size: 0.85rem;
-            color: #cbd5e1;
-            line-height: 1.6;
-        }
-
-        .badge {
-            display: inline-block;
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 0.7rem;
-            font-weight: 700;
-            margin-bottom: 10px;
-            background: rgba(255, 255, 255, 0.1);
-        }
+        :root { --teal: #051614; --mint: #3BC1A8; --glass: rgba(255, 255, 255, 0.05); }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--teal); color: white; display: flex; justify-content: center; padding: 40px; margin: 0; }
+        .container { max-width: 1000px; width: 100%; background: var(--glass); backdrop-filter: blur(20px); border-radius: 30px; padding: 40px; border: 1px solid rgba(59, 193, 168, 0.2); }
+        h1 { color: var(--mint); margin: 0 0 10px 0; font-weight: 800; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin-top: 30px; }
+        .field { display: flex; flex-direction: column; }
+        label { font-size: 0.7rem; color: var(--mint); text-transform: uppercase; margin-bottom: 8px; letter-spacing: 1px; font-weight: 700; }
+        input, select { background: rgba(0,0,0,0.3); border: 1px solid rgba(59,193,168,0.3); padding: 12px; border-radius: 10px; color: white; outline: none; }
+        input:focus { border-color: var(--mint); box-shadow: 0 0 10px rgba(59,193,168,0.3); }
+        button { width: 100%; padding: 20px; background: var(--mint); color: var(--teal); border: none; border-radius: 15px; font-weight: 800; cursor: pointer; margin-top: 30px; transition: 0.3s; }
+        button:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(59,193,168,0.4); }
+        #result { margin-top: 30px; padding: 25px; border-radius: 20px; display: none; background: rgba(0,0,0,0.2); border-left: 8px solid var(--mint); }
+        .badge { display: inline-block; padding: 5px 15px; border-radius: 50px; font-size: 0.8rem; font-weight: 800; margin-bottom: 10px; }
+        .status-Approved { background: var(--mint); color: var(--teal); }
+        .status-Rejected { background: #ff5e57; color: white; }
     </style>
 </head>
-
 <body>
-
     <div class="container">
-        <div class="header">
-            <div class="badge">SECURE AI AUDIT</div>
-            <h1>TrustFlow AI</h1>
-            <p>Next-Gen Credit Risk & Bias Audit</p>
+        <h1>TrustFlow AI</h1>
+        <p style="opacity: 0.7;">Enterprise Generative Risk & Fraud Auditor</p>
+        
+        <div class="grid" id="form-grid">
+            <div class="field"><label>Credit Score</label><input type="number" id="credit_score" value="700"></div>
+            <div class="field"><label>Monthly Income</label><input type="number" id="monthly_income" value="5000"></div>
+            <div class="field"><label>Loan Amount</label><input type="number" id="loan_amount" value="10000"></div>
+            <div class="field"><label>DTI Ratio</label><input type="number" step="0.01" id="debt_to_income_ratio" value="0.3"></div>
+            <div class="field"><label>Age</label><input type="number" id="age" value="30"></div>
+            <div class="field"><label>Employment</label><select id="employment_status"><option value="Full-time">Full-time</option><option value="Part-time">Part-time</option></select></div>
+            <div class="field"><label>Purpose</label><select id="loan_purpose"><option value="Home">Home</option><option value="Education">Education</option></select></div>
+            <div class="field"><label>Delinquency Hist.</label><select id="delinquency_history"><option value="No">No History</option><option value="Yes">Prior Issues</option></select></div>
         </div>
 
-        <div class="form-group">
-            <label>Applicant Age</label>
-            <input type="number" id="age" placeholder="Enter age">
-        </div>
-
-        <div class="form-group">
-            <label>Gender Profile</label>
-            <select id="sex">
-                <option value="male">Male</option>
-                <option value="female">Female</option>
-            </select>
-        </div>
-
-        <div class="form-group">
-            <label>Credit Required ($)</label>
-            <input type="number" id="credit" placeholder="Enter amount">
-        </div>
-
-        <div class="form-group">
-            <label>Loan Objective</label>
-            <select id="purpose">
-                <option value="business">Business Venture</option>
-                <option value="education">Academic Loan</option>
-                <option value="car">Automobile</option>
-                <option value="furniture">Personal/Home</option>
-            </select>
-        </div>
-
-        <button onclick="checkLoan()" id="mainBtn">Run AI Diagnostics</button>
+        <button onclick="runAudit()">INITIATE SYSTEM AUDIT</button>
 
         <div id="result">
-            <div id="statusTitle" style="font-weight: 700; font-size: 1.2rem;"></div>
-            <div class="insight-box">
-                <strong style="color: var(--accent); display: block; margin-bottom: 5px;">GEN-AI INSIGHT:</strong>
-                <span id="reportText"></span>
-            </div>
+            <div id="badge_status" class="badge"></div>
+            <div id="confidence" style="font-weight: 800; font-size: 1.2rem; margin-bottom: 15px;"></div>
+            <div id="audit_report" style="line-height: 1.6; opacity: 0.9;"></div>
         </div>
     </div>
 
     <script>
-        async function checkLoan() {
-            const btn = document.getElementById('mainBtn');
-            const resultDiv = document.getElementById('result');
-
-            btn.innerText = "Analyzing Patterns...";
-            btn.disabled = true;
-
-            const data = {
-                "Age": parseInt(document.getElementById('age').value) || 25,
-                "Sex": document.getElementById('sex').value,
-                "Job": 2, "Housing": "own", "Saving acc": "rich",
-                "Checking a": "moderate",
-                "Credit amount": parseInt(document.getElementById('credit').value) || 1000,
-                "Duration": 24,
-                "Purpose": document.getElementById('purpose').value
-            };
+        async function runAudit() {
+            const btn = document.querySelector('button');
+            btn.innerText = "AUDITING PATTERNS...";
+            const payload = {};
+            document.querySelectorAll('input, select').forEach(el => payload[el.id] = el.value);
 
             try {
                 const response = await fetch('http://127.0.0.1:5000/predict', {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(data)
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify(payload)
                 });
-                const result = await response.json();
+                const res = await response.json();
 
-                resultDiv.style.display = 'block';
-                const statusTitle = document.getElementById('statusTitle');
-                statusTitle.innerText = "VERDICT: " + result.loan_status.toUpperCase();
-                document.getElementById('reportText').innerText = result.fairness_report;
-
-                resultDiv.className = result.loan_status === "Approved" ? "status-approved" : "status-rejected";
-            } catch (error) {
-                alert("Please ensure Flask (app.py) is running!");
+                const resDiv = document.getElementById('result');
+                resDiv.style.display = 'block';
+                resDiv.style.borderColor = res.loan_status === "Approved" ? "#3BC1A8" : "#ff5e57";
+                
+                const badge = document.getElementById('badge_status');
+                badge.innerText = res.loan_status;
+                badge.className = `badge status-${res.loan_status}`;
+                
+                document.getElementById('confidence').innerText = `AI Confidence: ${res.confidence}%`;
+                document.getElementById('audit_report').innerText = res.fairness_report;
+            } catch (err) {
+                alert("Server Error! Check if app.py is running.");
             } finally {
-                btn.innerText = "Run AI Diagnostics";
-                btn.disabled = false;
+                btn.innerText = "INITIATE SYSTEM AUDIT";
             }
         }
     </script>
 </body>
-
 </html>
