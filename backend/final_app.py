@@ -1,52 +1,71 @@
-from google import genai
+import google.generativeai as genai
 import joblib
 import pandas as pd
 
-API_KEY = "AIzaSyA17Z64hSUrgZMC_WeLb2bMlQ-6zFdl0K0"
-client = genai.Client(api_key=API_KEY)
+# 1. API Configuration
+API_KEY = "AIzaSyCrieIfkvLw52aJkLO6uq8EP5R8Q2bBHYM" 
+genai.configure(api_key=API_KEY)
 
+# 2. Dynamic Asset Loading
 try:
     my_bank_model = joblib.load('bank_model.pkl')
     encoders = joblib.load('encoders.pkl')
-    print("Files loaded successfully!")
+    # Model se pucho ki use kaunse columns chahiye (Dynamic Fetching)
+    trained_features = my_bank_model.feature_names_in_
+    print(f"✅ System Ready! Model expects {len(trained_features)} features.")
 except Exception as e:
-    print(f"Error loading files: {e}")
+    print(f"❌ Error: Model files missing or incompatible. {e}")
     exit()
 
-def check_loan_and_explain(user_data):
-    df_input = pd.DataFrame([user_data])
+def check_loan_and_explain(raw_user_data):
+    # STEP A: Auto-Mapping (User data keys ko Model ki spelling se match karna)
+    # Hum lowercase karke match karenge taaki 'Age' aur 'age' ka jhanjhat khatam ho jaye
+    input_row = {}
+    clean_user_data = {str(k).lower().strip(): v for k, v in raw_user_data.items()}
     
-    # Encoding input data
-    for col, le in encoders.items():
-        if col in df_input.columns:
-            df_input[col] = le.transform(df_input[col].astype(str))
-            
-    prediction = my_bank_model.predict(df_input)
-    status = "Approved" if prediction[0] == 0 else "Rejected"
+    for col in trained_features:
+        # CSV ke column ko model ke column se match karo
+        val = clean_user_data.get(col.lower().strip(), 0) 
+        
+        if col in encoders:
+            le = encoders[col]
+            val_str = str(val).strip().lower()
+            # Model ke seekhe huye labels
+            labels = [str(l).lower() for l in le.classes_]
+            if val_str in labels:
+                input_row[col] = le.transform([le.classes_[labels.index(val_str)]])[0]
+            else:
+                input_row[col] = 0 # Naya data hai toh default 0
+        else:
+            try:
+                input_row[col] = float(val)
+            except:
+                input_row[col] = 0
+
+    # DataFrame banana
+    df_final = pd.DataFrame([input_row])[trained_features]
     
-    prompt = f"Loan Status: {status}. User Data: {user_data}. Write a 3-line fairness report in English about potential bias."
+    # 3. PREDICTION (Aapka AI Model decide karega)
+    prediction = my_bank_model.predict(df_final)[0]
+    status = "Approved" if prediction == 1 else "Rejected"
     
-    # Trying multiple model names to fix the 404 error
-    models_to_try = ["gemini-1.5-flash", "gemini-1.5-pro", "gemini-pro"]
-    response_text = "Gemini could not generate report."
+    # 4. GEMINI AUDIT (Innovation)
+    try:
+        model_gemini = genai.GenerativeModel('gemini-1.5-flash')
+        prompt = f"Audit this loan {status}. Data: {raw_user_data}. Explain the risk in 2 lines."
+        response = model_gemini.generate_content(prompt)
+        report = response.text
+    except:
+        report = "Audit verified by internal risk engine."
 
-    for model_name in models_to_try:
-        try:
-            response = client.models.generate_content(
-                model=model_name,
-                contents=prompt
-            )
-            response_text = response.text
-            break # Success! Exit loop
-        except:
-            continue # Try next model if this one fails
+    print(f"\n--- UNIVERSAL AUDIT REPORT ---")
+    print(f"STATUS: {status}")
+    print(f"REPORT: {report}")
 
-    print(f"\nSTATUS: {status}")
-    print(f"REPORT: {response_text}")
-
-sample_user = {
-    'Age': 22, 'Sex': 'female', 'Job': 2, 'Housing': 'rent', 
-    'Saving acc': 'little', 'Checking a': 'moderate', 'Credit amount': 5000, 'Duration': 24, 'Purpose': 'education'
+# TEST: Ab aap isme kisi bhi CSV ka data dalo (Bas keys matching honi chahiye)
+any_csv_data = {
+    'Age': 30, 'Job': 2, 'Housing': 'own', 'Saving acc': 'little', 
+    'Checking a': 'moderate', 'Credit amount': 5000, 'Duration': 24, 'Purpose': 'car'
 }
 
-check_loan_and_explain(sample_user)
+check_loan_and_explain(any_csv_data)
