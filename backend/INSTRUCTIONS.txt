@@ -1,0 +1,45 @@
+FAIRSCAN AI - INSTALLATION & EXECUTION GUIDE
+--------------------------------------------
+
+Follow these steps to run the project on your local machine:
+
+STEP 1: PREREQUISITES
+Ensure you have the following installed:
+1. Python (3.10 or higher)
+2. Node.js (v18 or higher)
+3. MongoDB Community Server (Running in the background)
+
+STEP 2: INSTALLING DEPENDENCIES
+Open your terminal/command prompt and run the following:
+
+A. For Python (AI Backend):
+   cd backend
+   pip install flask flask-cors google-generativeai python-dotenv
+
+B. For Node.js (Database & Auth):
+   cd backend
+   npm install express mongoose cors body-parser
+
+STEP 3: RUNNING THE SERVERS (IMPORTANT)
+You must keep TWO terminals open simultaneously. Do not close them.
+
+TERMINAL 1 (Database Server):
+1. Navigate to the 'backend' folder.
+2. Run command: node server.js
+3. You should see: "✅ MongoDB Connected Successfully!"
+
+TERMINAL 2 (AI Logic Server):
+1. Open a NEW terminal window.
+2. Navigate to the 'backend' folder.
+3. Run command: python app.py
+4. You should see: "Running on http://127.0.0.1:5000"
+
+STEP 4: ACCESSING THE APPLICATION
+1. Once both servers are running, go to the 'frontend' folder.
+2. Double-click 'home.html' to open it in your browser (Chrome/Edge).
+3. Click "GET STARTED" to begin the Audit process.
+
+PROJECT FLOW:
+Home Page -> Sign Up/Login -> AI Audit Dashboard -> View History.
+--------------------------------------------
+ 

@@ -1,0 +1,16 @@
+TECH STACK & ARCHITECTURE:
+
+1. Frontend (The User Dashboard):
+   - HTML5 & CSS3: Modern Glassmorphism UI with Neon Theme.
+   - JavaScript (ES6): Asynchronous Fetch API for real-time AI communication.
+
+2. Backend (The Logic Engine):
+   - Python 3.x: Fast and secure server handling.
+   - Flask: Lightweight web framework to bridge AI and Frontend.
+
+3. AI Layer (The Brain):
+   - Google Gemini AI (v1beta): Generative AI for deep financial reasoning.
+   - Hybrid Model: Rules-based fallback for 100% system uptime.
+
+4. Data Sources:
+   - CSV Dataset (20,000 records): Used to train and identify the top 10 loan factors.

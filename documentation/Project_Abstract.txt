@@ -1,0 +1,13 @@
+PROJECT TITLE: FairScan AI - Autonomous Loan Auditor
+ 
+
+ABSTRACT:
+FairScan AI is a high-tech financial tool designed to eliminate human bias from the loan approval process. 
+Using Google's Gemini AI and a 10-factor expert-rule engine, it analyzes 20,000+ data points to provide 
+unbiased credit risk assessments. 
+
+Key Features:
+- Real-time AI Risk Analysis using Gemini Pro.
+- Hybrid Logic: Automatic fallback to expert rules if AI is offline.
+- Data Privacy: Secure processing of 10 critical financial factors.
+- Audit Transparency: One-click professional report generation.
